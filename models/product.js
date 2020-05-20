@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 var ProductSchema = new Schema ({
-    _id: Schema.Types.ObjectId,
         name: {
             type: String,
             unique: true,

@@ -18,8 +18,10 @@ app.use("/", (req, res, next) => {
 });
 
 app.use("/users", routes.users);
-app.use("/messages", routes.messages);
+app.use("/city", routes.city);
 app.use("/session", routes.session);
+app.use("/product", routes.product);
+app.use("/productoffer", routes.productoffer);
 
 mongoose.connect(process.env.DATABASE_URL).then(async () => {
   app.listen(PORT, () => console.log(`app running at port ${PORT}`));
