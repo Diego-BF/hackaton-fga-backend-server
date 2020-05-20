@@ -1,29 +1,27 @@
-let users = {
-    1: {
-        id: '1',
-        username: 'lolcat'
-    },
-    2: {
-        id: '2',
-        username: '1337master'
-    }
+import User from './user.js';
+import Producer from './producer.js';
+import City from './city.js';
+import Product from './product.js';
+import Order from './order.js';
+import ProductOffer from './productoffer.js';
+// importar o messages so pra debugar e treinar
+import Messages from './messages.js';
+import mongoose from 'mongoose';
+
+const connectDb = (url) => {
+    console.log('Database connected at ' + url);
+    return mongoose.connect(url);
+}
+
+const models = {
+    User,
+    Producer,
+    City,
+    Product,
+    Order,
+    ProductOffer,
+    Messages
 };
 
-let messages = {
-    1: {
-        id: '1',
-        message: 'wassup m8',
-        userId: '1'
-    },
-    2: {
-        id: '2',
-        message: 'hey you',
-        userId: '2'
-    }
-};
-
-
-export default {
-    users,
-    messages
-};
+export { connectDb };
+export default models;
