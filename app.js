@@ -1,8 +1,7 @@
 import "dotenv/config.js";
 import express from "express";
 import routes from "./routes/index.js";
-import models from "./models/index.js";
-import mongoose from "mongoose";
+import models, { connectDb } from "./models/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,8 +20,10 @@ app.use("/users", routes.users);
 app.use("/messages", routes.messages);
 app.use("/session", routes.session);
 
-mongoose.connect(process.env.DATABASE_URL).then(async () => {
-  app.listen(PORT, () => console.log(`app running at port ${PORT}`));
-}).catch((err) => {
-  console.log(err);
-});
+connectDb()
+  .then(async () => {
+    app.listen(PORT, () => console.log(`app running at port ${PORT}`));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
