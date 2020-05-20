@@ -1,11 +1,43 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
-var UserSchema = new Schema ({
-    _id: Schema.Types.ObjectId,
-    email: String
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    { timestamps: true }    // data e horario
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    address: {
+      street: {
+        type: String,
+        required: true,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
+      zip: {
+        type: String,
+        required: true,
+      },
+      isConsumer: {
+        type: Boolean,
+        required: true,
+        default: true,
+      },
+    },
+  },
+  { timestamps: true }
 );
 
-export default mongoose.model('User', UserSchema); // Aqui vai o foregin key
+const User = mongoose.model("User", userSchema);
+
+export default User;
