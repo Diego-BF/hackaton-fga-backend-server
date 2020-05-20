@@ -12,7 +12,10 @@ const dbUrl = process.env.DATABASE_URL;
 
 const connectDb = () => {
   console.log("Database connected at " + dbUrl);
-  return mongoose.connect(dbUrl);
+  return mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 };
 
 const models = {
