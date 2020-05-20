@@ -5,7 +5,6 @@ import Product from "./product.js";
 import Order from "./order.js";
 import ProductOffer from "./productoffer.js";
 // importar o messages so pra debugar e treinar
-import Messages from "./messages.js";
 import mongoose from "mongoose";
 
 const dbUrl = process.env.DATABASE_URL;
@@ -25,7 +24,6 @@ const models = {
   Product,
   Order,
   ProductOffer,
-  Messages,
 };
 
 export { connectDb };

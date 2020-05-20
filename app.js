@@ -17,8 +17,10 @@ app.use("/", (req, res, next) => {
 });
 
 app.use("/users", routes.users);
-app.use("/messages", routes.messages);
+app.use("/city", routes.city);
 app.use("/session", routes.session);
+app.use("/product", routes.product);
+app.use("/productoffer", routes.productoffer);
 
 connectDb()
   .then(async () => {
