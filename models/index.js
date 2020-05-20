@@ -1,29 +1,16 @@
-let users = {
-    1: {
-        id: '1',
-        username: 'lolcat'
-    },
-    2: {
-        id: '2',
-        username: '1337master'
-    }
+import Users from './users.js';
+import Messages from './messages.js';
+import mongoose from 'mongoose';
+
+const connectDb = (url) => {
+    console.log('Database connected at ' + url);
+    return mongoose.connect(url);
+}
+
+const models = {
+    Users,
+    Messages
 };
 
-let messages = {
-    1: {
-        id: '1',
-        message: 'wassup m8',
-        userId: '1'
-    },
-    2: {
-        id: '2',
-        message: 'hey you',
-        userId: '2'
-    }
-};
-
-
-export default {
-    users,
-    messages
-};
+export { connectDb };
+export default models;
