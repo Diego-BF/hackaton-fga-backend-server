@@ -1,0 +1,6 @@
+{
+    "producer": "user._id",
+    "product": "product._id",
+    "available": "true",
+    "qty": 40 // Opcional
+}
