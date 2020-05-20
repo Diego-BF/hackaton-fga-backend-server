@@ -1,10 +1,18 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
-var ProducerSchema = new Schema ({
-    _id: Schema.Types.ObjectId,
-    },
-    { timestamps: true }    // data e horario
+const producerSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    sell_addresses: [
+      {
+        address: String,
+        City: String,
+      },
+    ],
+  },
+  { timestamps: true }
 );
 
-export default mongoose.model('Producer', ProducerSchema); // Aqui vai o foregin key
+const Producer = mongoose.model("Producer", producerSchema);
+
+export default Producer;

@@ -24,15 +24,15 @@ const userSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      zip: {
-        type: String,
-        required: true,
-      },
-      isConsumer: {
-        type: Boolean,
-        required: true,
-        default: true,
-      },
+    },
+    zip: {
+      type: String,
+      required: true,
+    },
+    isConsumer: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
   },
   { timestamps: true }
