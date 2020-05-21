@@ -45,6 +45,6 @@ router.get("/all", (req, res) => {
       res.json(_users);
     }
   });
-})
+});
 
 export default router;
