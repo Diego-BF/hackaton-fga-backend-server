@@ -2,9 +2,9 @@ import express from 'express';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/all', (req, res) => {
     console.log('view all existing users');
-    req.context.models.Users.find({})
+    req.context.models.User.find({})
     .exec((err, _users) => {
         if(err) {
             res.send('error' + err);
@@ -31,7 +31,7 @@ router.get('/:userId', (req, res) => {
     })
 });
 
-router.post('/', async function (req, res) {
+router.post('/', async function (req, res) { // Criar um novo usuario a partir do corpo do JSON recebido
     var _user = new req.context.models.User(req.body);
 
     const userSave = await _user.save((err) => {
@@ -40,7 +40,7 @@ router.post('/', async function (req, res) {
             res.send(err);
         } else {
             console.log("user created succesfully");
-            res.write(JSON.stringify(_user));
+            res.write(JSON.stringify(_user.id));
         }
     });
 
@@ -52,10 +52,10 @@ router.post('/', async function (req, res) {
         const producerSave = await _producer.save((err) => {
             if(err) {
                 console.log("error adding to producers");
-                return res.end(err);
+                res.end(err);
             } else {
                 console.log("producer added succesfully");
-                return res.end("producer added succesfully");
+                res.end(JSON.stringify(_producer.id));
             }
         })
     } else {
