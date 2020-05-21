@@ -54,18 +54,18 @@ export const createUser = async (userData) => {
     },
     zip: userData.zip,
     isConsumer: userData.isConsumer,
-    producerId: undefined,
   };
 
+  let user = new User(newUser);
+  console.log("### dados do user:\t", user);
+
   if (!userData.isConsumer) {
-    let consumer = new Producer({});
-    await consumer.save();
-    console.log("new Producer created", consumer);
-    newUser.producerId = consumer._id;
+    let producer = new Producer({});
+    producer.userId = user._id;
+    await producer.save();
+    console.log("new Producer saved", producer);
   }
 
-  let user = new User(newUser);
-  console.log("new User created", user);
-
+  console.log("new User will be saved", user);
   return user.save();
 };
