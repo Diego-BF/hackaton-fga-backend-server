@@ -22,6 +22,7 @@ app.use("/city", routes.city);
 app.use("/session", routes.session);
 app.use("/product", routes.product);
 app.use("/productoffer", routes.productoffer);
+app.use("/order", routes.order);
 
 connectDb()
   .then(async () => {

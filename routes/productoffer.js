@@ -2,26 +2,26 @@ import express from 'express';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    req.context.models.ProductOffer.find((err, productoffer) => {
+router.get('/all', (req, res) => {
+    console.log("view all product offers");
+    req.context.models.ProductOffer.find({})
+    .populate([{path: 'producer', select: 'name'}, {path: 'product', select: 'name'}])
+    .exec((err, productoffer) => {
         if(err) console.log(err);
         res.send(productoffer);
     });
 });
 
-router.post('/', (req, res) => {
-    var offer = new req.context.models.ProductOffer();
-    console.log(req.body);
-    offer.available = req.body.available;
-    offer.qty = req.body.qty;
+router.post('/new', (req, res) => {
+    var offer = new req.context.models.ProductOffer(req.body);
 
     offer.save((err) => {
         if (err) {
-            console.log("error storing in database");
-            console.log(err);
-            res.send('Error storing in database');
+            console.log("error creating new product offer  " + err);
+            res.send(err);
         } else {
-            res.send(JSON.stringify(req.body));
+            console.log("Succesfully created new product offer");
+            res.send(offer._id);
         }
     })
 });

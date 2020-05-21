@@ -14,7 +14,7 @@ var ProductSchema = new Schema ({
         },
         synonyms: {
             type: [String],
-            unique: true,
+            unique: false,
             required: false
         }
     },
