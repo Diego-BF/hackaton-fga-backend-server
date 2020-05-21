@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon --exec babel-node --experimental-modules app.js",
+    "debug-start": "DEBUG=express:* nodemon --exec babel-node --experimental-modules app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
