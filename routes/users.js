@@ -1,6 +1,6 @@
 import express from "express";
 
-import User, { createUser } from "../models/user";
+import User, { createUser } from "../models/user.js";
 
 const router = express.Router();
 
@@ -35,5 +35,16 @@ router.get("/", (req, res) => {
     }
   });
 });
+
+router.get("/all", (req, res) => {
+  User.find({})
+  .exec((err, _users) => {
+    if(err) {
+      res.status(500).json({ error: err });
+    } else {
+      res.json(_users);
+    }
+  });
+})
 
 export default router;
