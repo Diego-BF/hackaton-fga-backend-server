@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
     })
 });
 
+
 router.get('/:producerId', (req, res) => {
     req.context.models.Producer.findOne({
         _id: req.params.producerId
