@@ -10,11 +10,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    var _city = new req.context.models.City({
-        name: req.body.name,
-        image: req.body.image,
-        synonyms: req.body.synonyms
-    });
+    var _city = new req.context.models.City(req.body);
 
     _city.save((err) => {
         if (err) {

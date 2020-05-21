@@ -70,7 +70,7 @@ router.post('/new', (req, res) => { // Criar novo produto a partir do corpo do J
             res.send('Error creating product in database  ' + err);
         } else {
             console.log("Succesfully created new product");
-            res.send();
+            res.send(prod);
         }
     })
 });

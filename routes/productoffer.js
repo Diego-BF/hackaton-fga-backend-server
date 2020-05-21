@@ -5,6 +5,7 @@ const router = express.Router();
 router.get('/all', (req, res) => {
     console.log("view all product offers");
     req.context.models.ProductOffer.find({})
+    .populate([{path: 'producer', select: 'name'}, {path: 'product', select: 'name'}])
     .exec((err, productoffer) => {
         if(err) console.log(err);
         res.send(productoffer);

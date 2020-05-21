@@ -4,6 +4,7 @@ import producers from './producers.js';
 import product from './product.js';
 import city from './city.js';
 import productoffer from './productoffer.js';
+import order from './order.js';
 
 export default {
     session,
@@ -11,5 +12,6 @@ export default {
     producers,
     product,
     city,
-    productoffer
+    productoffer,
+    order
 }

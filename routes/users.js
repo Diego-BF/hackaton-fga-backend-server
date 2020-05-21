@@ -31,16 +31,15 @@ router.get('/:userId', (req, res) => {
     })
 });
 
-router.post('/', async function (req, res) { // Criar um novo usuario a partir do corpo do JSON recebido
+router.post('/new', async function (req, res) { // Criar um novo usuario a partir do corpo do JSON recebido
     var _user = new req.context.models.User(req.body);
 
     const userSave = await _user.save((err) => {
         if (err) {
             console.log("error creating user" + err);
-            res.send(err);
+            return res.send(err);
         } else {
             console.log("user created succesfully");
-            res.write(JSON.stringify(_user.id));
         }
     });
 
@@ -52,14 +51,14 @@ router.post('/', async function (req, res) { // Criar um novo usuario a partir d
         const producerSave = await _producer.save((err) => {
             if(err) {
                 console.log("error adding to producers");
-                res.end(err);
+                return res.end(err);
             } else {
                 console.log("producer added succesfully");
-                res.end(JSON.stringify(_producer.id));
+                return res.end(_producer.id);
             }
         })
     } else {
-        res.end();
+        return res.end();
     }
 })
 
