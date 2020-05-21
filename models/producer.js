@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const producerSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    // user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     sell_addresses: [
       {
         address: String,

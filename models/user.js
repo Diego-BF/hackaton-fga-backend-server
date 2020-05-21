@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import Producer from "./producer";
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      unique: true,
+      unique: [true, "Email já cadastrado"],
       required: true,
     },
     password: {
@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: true,
     },
+    producerId: { type: mongoose.Schema.Types.ObjectId, ref: "Producer" },
   },
   { timestamps: true }
 );
@@ -41,3 +42,30 @@ const userSchema = new mongoose.Schema(
 const User = mongoose.model("User", userSchema);
 
 export default User;
+
+export const createUser = async (userData) => {
+  const newUser = {
+    name: userData.name,
+    email: userData.email,
+    password: userData.password,
+    address: {
+      street: userData.street,
+      city: userData.city,
+    },
+    zip: userData.zip,
+    isConsumer: userData.isConsumer,
+    producerId: undefined,
+  };
+
+  if (!userData.isConsumer) {
+    let consumer = new Producer({});
+    await consumer.save();
+    console.log("new Producer created", consumer);
+    newUser.producerId = consumer._id;
+  }
+
+  let user = new User(newUser);
+  console.log("new User created", user);
+
+  return user.save();
+};

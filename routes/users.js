@@ -1,65 +1,40 @@
-import express from 'express';
+import express from "express";
+
+import User, { createUser } from "../models/user";
+
 
 const router = express.Router();
 
-router.get('/all', (req, res) => {
-    console.log('view all existing users');
-    req.context.models.User.find({})
-    .exec((err, _users) => {
-        if(err) {
-            res.send('error' + err);
-            console.log(err);
+router.post("/", async (req, res, next) => {
+  if (req.body) {
+    await createUser(req.body)
+      .then(() => {
+        res.send();
+      })
+      .catch((err) => {
+        if (err.name === "MongoError" && err.code === 11000) {
+          res.status(422).json({ error: "Email must be unique" });
         } else {
-            console.log(_users);
-            res.send(_users);
+          res.status(422).json({ error: err.message });
         }
-    })
+      });
+  } else {
+    res.statusCode(400);
+  }
 });
 
-router.get('/:userId', (req, res) => {
-    req.context.models.User.findOne({
-        _id: req.params.userId
-    })
-    .exec((err, _user) => {
-        if(err) {
-            console.log('error fetching user');
-            res.send(err);
-        } else {
-            console.log(`fetched user ${_user}`);
-            res.send(JSON.stringify(_user));
-        }
-    })
-});
+router.get("/", (req, res) => {
+  if (!req.body.userId) {
+    res.status(422).json({ error: "Inform the userId key" });
+  }
 
-router.post('/new', async function (req, res) { // Criar um novo usuario a partir do corpo do JSON recebido
-    var _user = new req.context.models.User(req.body);
-
-    const userSave = await _user.save((err) => {
-        if (err) {
-            console.log("error creating user" + err);
-            return res.send(err);
-        } else {
-            console.log("user created succesfully");
-        }
-    });
-
-    if(_user.isConsumer == false) {
-        var _producer = new req.context.models.Producer({
-                user: _user._id,
-        });
-
-        const producerSave = await _producer.save((err) => {
-            if(err) {
-                console.log("error adding to producers");
-                return res.end(err);
-            } else {
-                console.log("producer added succesfully");
-                return res.end(_producer.id);
-            }
-        })
+  User.findById(req.body.userId, (err, doc) => {
+    if (err) {
+      res.status(422).json({ error: err.message });
     } else {
-        return res.end();
+      res.json(doc);
     }
-})
+  });
+});
 
 export default router;
