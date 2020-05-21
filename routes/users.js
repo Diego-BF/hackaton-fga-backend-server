@@ -4,7 +4,7 @@ import User, { createUser } from "../models/user";
 
 const router = express.Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {
   if (req.body) {
     await createUser(req.body)
       .then(() => {

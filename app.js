@@ -17,6 +17,7 @@ app.use("/", (req, res, next) => {
 });
 
 app.use("/users", routes.users);
+app.use("/producers", routes.producers);
 app.use("/city", routes.city);
 app.use("/session", routes.session);
 app.use("/product", routes.product);

@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 var ProductOfferSchema = new Schema ({
-    _id: Schema.Types.ObjectId,
     producer: {
         type: Schema.Types.ObjectId,
         ref: 'User',
