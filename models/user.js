@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Producer from "./producer";
+import Producer from "./producer.js";
 const userSchema = new mongoose.Schema(
   {
     name: {
