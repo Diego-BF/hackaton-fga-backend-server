@@ -1,27 +1,39 @@
-import express from 'express';
+import express from "express";
+
+import User, { createUser } from "../models/user";
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    console.log('view all existing users');
-    req.context.models.Users.find({})
-    .exec((err, _users) => {
-        if(err) {
-            res.send('error' + err);
-            console.log(err);
+router.post("/", async (req, res, next) => {
+  if (req.body) {
+    await createUser(req.body)
+      .then(() => {
+        res.send();
+      })
+      .catch((err) => {
+        if (err.name === "MongoError" && err.code === 11000) {
+          res.status(422).json({ error: "Email must be unique" });
         } else {
-            console.log(_users);
-            res.send(_users);
+          res.status(422).json({ error: err.message });
         }
-    })
+      });
+  } else {
+    res.statusCode(400);
+  }
 });
 
-router.get('/:userId', (req, res) => {
-    console.log(`view user #${req.params.userId}`);
-    req.context.models.Users.findOne({
-        _id: req.params.userId
-    });
-    return res.send(req.context.models.users[req.params.userId]);
+router.get("/", (req, res) => {
+  if (!req.body.userId) {
+    res.status(422).json({ error: "Inform the userId key" });
+  }
+
+  User.findById(req.body.userId, (err, doc) => {
+    if (err) {
+      res.status(422).json({ error: err.message });
+    } else {
+      res.json(doc);
+    }
+  });
 });
 
 export default router;

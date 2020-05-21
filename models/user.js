@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import assert from "assert";
 
 const userSchema = new mongoose.Schema(
   {
@@ -8,7 +9,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      unique: true,
+      unique: [true, "Email já cadastrado"],
       required: true,
     },
     password: {
@@ -41,3 +42,21 @@ const userSchema = new mongoose.Schema(
 const User = mongoose.model("User", userSchema);
 
 export default User;
+
+export const createUser = (userData) => {
+  const newUser = {
+    name: userData.name,
+    email: userData.email,
+    password: userData.password,
+    address: {
+      street: userData.street,
+      city: userData.city,
+    },
+    zip: userData.zip,
+    isConsumer: userData.isConsumer,
+  };
+  let user = new User(newUser);
+  console.log("preparando para salvar usuário...");
+
+  return user.save();
+};
