@@ -47,4 +47,30 @@ router.get("/all", (req, res) => {
   });
 });
 
+router.get("/consumer", (req, res) => {
+  User.find({
+    isConsumer: true
+  })
+  .exec((err, _users) => {
+    if(err) {
+      res.status(500).json({ error: err });
+    } else {
+      res.json(_users);
+    }
+  });
+});
+
+router.get("/producers", (req, res) => {
+  User.find({
+    isConsumer: false
+  })
+  .populate({path: "producerId", select: "_id"})
+  .exec((err, _users) => {
+    if(err) {
+      res.status(500).json({ error: err });
+    } else {
+      res.json(_users);
+    }
+  });
+});
 export default router;

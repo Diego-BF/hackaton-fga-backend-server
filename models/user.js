@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    tel: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       unique: [true, "Email já cadastrado"],
@@ -24,10 +28,10 @@ const userSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-    },
-    zip: {
-      type: String,
-      required: true,
+      zip: {
+        type: String,
+        required: true,
+      },
     },
     isConsumer: {
       type: Boolean,
@@ -48,6 +52,7 @@ export const createUser = async (userData) => {
     name: userData.name,
     email: userData.email,
     password: userData.password,
+    tel: userData.tel,
     address: {
       street: userData.street,
       city: userData.city,

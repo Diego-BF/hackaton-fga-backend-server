@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -18,12 +19,31 @@ router.post('/new', (req, res) => {
     offer.save((err) => {
         if (err) {
             console.log("error creating new product offer  " + err);
-            res.send(err);
+            res.status(422).json({erro: err});
         } else {
             console.log("Succesfully created new product offer");
             res.send(offer._id);
         }
     })
 });
+
+router.delete('/delete', (req, res) => {
+    req.context.models.Order.deleteMany({
+        "products.productOffer": mongoose.Schema.Types.ObjectId(req.body._id)
+    }, (err) => {
+        if(err) {
+            console.log("error removing orders associated with offer");
+             res.status(422).json({error: err});
+        }
+    });
+    req.context.models.ProductOffer.deleteOne({
+        _id: req.body._id
+    }, (err) => {
+        if(err) {
+            console.log("error removing offer");
+            res.status(422).json({error: err});
+        }
+    })
+})
 
 export default router;
