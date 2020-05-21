@@ -56,8 +56,8 @@ export const createUser = async (userData) => {
     address: {
       street: userData.street,
       city: userData.city,
+      zip: userData.zip,
     },
-    zip: userData.zip,
     isConsumer: userData.isConsumer,
   };
 
