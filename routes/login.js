@@ -1,6 +1,6 @@
 import express from "express";
 
-import { authenticate } from "../auth.js";
+import { authenticate, restrict } from "../auth.js";
 
 const router = express.Router();
 
@@ -23,6 +23,10 @@ router.post("/", function (req, res) {
       res.json({ message: `Authenticated as ${user.name}` });
     }
   });
+});
+
+router.get('/test', restrict, function (req, res) {
+  res.json({ message: "You're already logged. =D" });
 });
 
 export default router;
