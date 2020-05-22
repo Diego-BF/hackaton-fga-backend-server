@@ -65,7 +65,20 @@ router.get('/', (req, res) => {
                 return res.status(422).json({error: err});
             }
             return res.json(ord);
-        })
-})
+        });
+});
+
+routes.get('/producer', (req, res) => {
+    req.context.models.Order.find(
+        { buyer: req.body._id},
+        (err, ord) => {
+            if(err) {
+                console.log("Error fetching products for producer  " + err);
+                return res.status(422).json({error: err});
+            }
+            return res.json(ord);
+        }
+    );
+});
 
 export default router;

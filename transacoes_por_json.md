@@ -49,17 +49,17 @@ resgatar todos os produtores| GET | (nao precisa de body)
 **/order** : ped_idos feito pelos usuarios
 Descrição | METODO HTTP | modelo da requisição JSON
 --------- | ----------- | -------------------------
-criar novo ped_ido| POST | request_models/order/order_new.json
-modificar ped_ido| PATCH | request_models/order/order_modify.json
-excluir ped_ido| DELETE | `{ "_id" : "_id_do_ped_ido_a_excluir" }`
-resgatar um ped_ido especifico| GET | `{ "_id" : "_id_do_ped_ido_a_resgatar" }`
+criar novo pedido| POST | request_models/order/order_new.json
+modificar pedido| PATCH | request_models/order/order_modify.json
+excluir pedido| DELETE | `{ "_id" : "_id_do_ped_ido_a_excluir" }`
+resgatar um pedido especifico| GET | `{ "_id" : "_id_do_ped_ido_a_resgatar" }`
 
 **/order/producer** : ped_idos associados aos produtores 
 Descrição | METODO HTTP | modelo da requisição JSON
 --------- | ----------- | -------------------------
-resgatar todos os ped_idos associados a um produtor| GET | `{ "_id" : "_id_do_produtor" }`
+resgatar todos os pedidos associados a um produtor| GET | `{ "_id" : "_id_do_produtor" }`
 
-**/order/user** : ped_idos associados aos produtores 
+**/order/user** : pedidos associados aos produtores 
 Descrição | METODO HTTP | modelo da requisição JSON
 --------- | ----------- | -------------------------
-resgatar todos os ped_idos associados a um usuario| GET | `{ "_id" : "_id_do_usuario" }`
+resgatar todos os pedidos associados a um usuario| GET | `{ "_id" : "_id_do_usuario" }`
