@@ -1,21 +1,25 @@
 import "dotenv/config.js";
 import express from "express";
 import routes from "./routes/index.js";
+import path from 'path';
 import models, { connectDb } from "./models/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.urlencoded());
 
 app.use("/", (req, res, next) => {
   req.context = {
+    public: path.join(__dirname, "/public/"),
     models: models,
     //user: models.users[1],
   };
   next();
 });
 
+app.use('/static', express.static('public'));
 app.use("/users", routes.users);
 app.use("/producers", routes.producers);
 app.use("/session", routes.session);

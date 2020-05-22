@@ -1,10 +1,11 @@
 import express from "express";
+import path from 'path';
 
 import User, { createUser } from "../models/user.js";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {  // Criar novo usuario
   if (req.body) {
     await createUser(req.body)
       .then(() => {
@@ -22,7 +23,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res) => {   // Resgatar um usuario a partir do userId 
   if (!req.body.userId) {
     res.status(422).json({ error: "Inform the userId key" });
   }
@@ -36,41 +37,4 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/all", (req, res) => {
-  User.find({})
-  .exec((err, _users) => {
-    if(err) {
-      res.status(500).json({ error: err });
-    } else {
-      res.json(_users);
-    }
-  });
-});
-
-router.get("/consumer", (req, res) => {
-  User.find({
-    isConsumer: true
-  })
-  .exec((err, _users) => {
-    if(err) {
-      res.status(500).json({ error: err });
-    } else {
-      res.json(_users);
-    }
-  });
-});
-
-router.get("/producers", (req, res) => {
-  User.find({
-    isConsumer: false
-  })
-  .populate({path: "producerId", select: "_id"})
-  .exec((err, _users) => {
-    if(err) {
-      res.status(500).json({ error: err });
-    } else {
-      res.json(_users);
-    }
-  });
-});
 export default router;
