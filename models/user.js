@@ -54,7 +54,7 @@ export default User;
 
 export const createUser = async (userData) => {
   let salt = CryptoJS.lib.WordArray.random(128 / 8);
-  let hash = CryptoJS.PBKDF2("vaidarbom", salt.toString(), {
+  let hash = CryptoJS.PBKDF2(userData.password, salt.toString(), {
     keySize: 256 / 32,
   });
 
