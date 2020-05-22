@@ -9,7 +9,7 @@ router.post("/", async (req, res) => {  // Criar novo usuario
   if (req.body) {
     await createUser(req.body)
       .then(() => {
-        res.send();
+        res.sendFile(path.join(req.context.front, "area-do-consumidor.html"));
       })
       .catch((err) => {
         if (err.name === "MongoError" && err.code === 11000) {

@@ -12,14 +12,14 @@ app.use(express.urlencoded());
 
 app.use("/", (req, res, next) => {
   req.context = {
-    public: path.join(__dirname, "/public/"),
+    front: path.join(__dirname, "front"),
     models: models,
     //user: models.users[1],
   };
   next();
 });
 
-app.use('/static', express.static('public'));
+app.use('/', express.static('front'));
 app.use("/users", routes.users);
 app.use("/producers", routes.producers);
 app.use("/session", routes.session);

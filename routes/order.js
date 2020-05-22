@@ -68,7 +68,7 @@ router.get('/', (req, res) => {
         });
 });
 
-routes.get('/producer', (req, res) => {
+router.get('/producer', (req, res) => {
     req.context.models.Order.find(
         { buyer: req.body._id},
         (err, ord) => {
@@ -81,4 +81,16 @@ routes.get('/producer', (req, res) => {
     );
 });
 
+router.get('/user', (req, res) => {
+    req.context.models.Order.find(
+        { buyer: req.body._id},
+        (err, ord) => {
+            if(err) {
+                console.log("Error fetching products for user  " + err);
+                return res.status(422).json({error: err});
+            }
+            return res.json(ord);
+        }
+    );
+});
 export default router;

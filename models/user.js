@@ -54,15 +54,15 @@ export const createUser = async (userData) => {
     password: userData.password,
     tel: userData.tel,
     address: {
-      street: userData.address.street,
-      city: userData.address.city,
-      zip: userData.address.zip,
+      street: userData.street,
+      city: userData.city,
+      zip: userData.zip,
     },
     isConsumer: userData.isConsumer,
   };
 
   let user = new User(newUser);
-  console.log(userData.isConsumer);
+  console.log(userData);
 
   if (user.isConsumer === false) {
     let producer = await new Producer({});
