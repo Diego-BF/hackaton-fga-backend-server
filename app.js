@@ -26,6 +26,7 @@ app.use("/session", routes.session);
 app.use("/product", routes.product);
 app.use("/productoffer", routes.productoffer);
 app.use("/order", routes.order);
+app.use("/login", routes.login);
 
 connectDb()
   .then(async () => {

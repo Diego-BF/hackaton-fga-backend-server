@@ -2,14 +2,18 @@ import express from "express";
 import path from 'path';
 
 import User, { createUser } from "../models/user.js";
+import { generateToken } from "../auth.js";
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {  // Criar novo usuario
   if (req.body) {
     await createUser(req.body)
-      .then(() => {
-        res.sendFile(path.join(req.context.front, "area-do-consumidor.html"));
+      .then((user) => {
+        const token = generateToken(user.id);
+        user.password = undefined;
+        res.send({ user, token });
+        // res.sendFile(path.join(req.context.front, "area-do-consumidor.html"));
       })
       .catch((err) => {
         if (err.name === "MongoError" && err.code === 11000) {
@@ -23,7 +27,7 @@ router.post("/", async (req, res) => {  // Criar novo usuario
   }
 });
 
-router.get("/", (req, res) => {   // Resgatar um usuario a partir do userId 
+router.get("/", (req, res) => {   // Resgatar um usuario a partir do userId
   if (!req.body.userId) {
     res.status(422).json({ error: "Inform the userId key" });
   }
@@ -32,6 +36,7 @@ router.get("/", (req, res) => {   // Resgatar um usuario a partir do userId
     if (err) {
       res.status(422).json({ error: err.message });
     } else {
+
       res.json(doc);
     }
   });
