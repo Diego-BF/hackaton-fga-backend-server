@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
+import CryptoJS from "crypto-js";
+
 import Producer from "./producer.js";
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -9,10 +12,6 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       unique: [true, "Email já cadastrado"],
-      required: true,
-    },
-    password: {
-      type: String,
       required: true,
     },
     address: {
@@ -35,6 +34,16 @@ const userSchema = new mongoose.Schema(
       default: true,
     },
     producerId: { type: mongoose.Schema.Types.ObjectId, ref: "Producer" },
+    auth: {
+      hash: {
+        type: String,
+        required: true,
+      },
+      salt: {
+        type: String,
+        required: true,
+      },
+    },
   },
   { timestamps: true }
 );
@@ -44,17 +53,25 @@ const User = mongoose.model("User", userSchema);
 export default User;
 
 export const createUser = async (userData) => {
-  const newUser = {
+  let salt = CryptoJS.lib.WordArray.random(128 / 8);
+  let hash = CryptoJS.PBKDF2("vaidarbom", salt.toString(), {
+    keySize: 256 / 32,
+  });
+
+  var newUser = {
     name: userData.name,
     email: userData.email,
-    password: userData.password,
     address: {
       street: userData.street,
       city: userData.city,
     },
     zip: userData.zip,
     isConsumer: userData.isConsumer,
-    producerId: undefined,
+    producerId: null,
+    auth: {
+      salt: salt,
+      hash: hash,
+    },
   };
 
   if (!userData.isConsumer) {
