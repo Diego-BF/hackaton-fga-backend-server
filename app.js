@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(
   session({
+    secret: process.env.SESSION_SECRET,
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
-    secret: process.env.SESSION_SECRET,
   })
 );
 // Session-persisted message middleware
@@ -43,6 +43,7 @@ app.use("/product", routes.product);
 app.use("/productoffer", routes.productoffer);
 app.use("/order", routes.order);
 app.use("/login", routes.login);
+app.use("/logout", routes.logout);
 
 connectDb()
   .then(async () => {

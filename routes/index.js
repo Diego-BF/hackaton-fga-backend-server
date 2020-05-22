@@ -6,6 +6,7 @@ import city from "./city.js";
 import productoffer from "./productoffer.js";
 import order from "./order.js";
 import login from "./login.js";
+import logout from "./logout.js";
 
 export default {
   session,
@@ -16,4 +17,5 @@ export default {
   productoffer,
   order,
   login,
+  logout
 };
