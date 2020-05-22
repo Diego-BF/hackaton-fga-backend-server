@@ -17,10 +17,9 @@ var OrderSchema = new Schema ({
         ref: 'User'
     },
     order_location: {
-        type: Schema.Types.ObjectId,
+        type: String,
         unique: false,
         required: true,
-        ref: 'City'
     },
     order_status: {
         type: String,

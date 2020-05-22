@@ -1,6 +1,5 @@
 import User from "./user.js";
 import Producer from "./producer.js";
-import City from "./city.js";
 import Product from "./product.js";
 import Order from "./order.js";
 import ProductOffer from "./productoffer.js";
@@ -19,7 +18,6 @@ const connectDb = () => {
 const models = {
   User,
   Producer,
-  City,
   Product,
   Order,
   ProductOffer,
