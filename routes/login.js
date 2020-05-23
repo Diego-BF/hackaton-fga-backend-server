@@ -1,8 +1,9 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
+import cookieParser from "cookie-parser";
 
 import User from "../models/user.js";
-import { generateToken, checkToken } from "../auth.js";
+import { generateToken, checkTokenCookie, EXPIRATION_TIME } from "../auth.js";
 
 const router = new Router();
 
@@ -19,11 +20,16 @@ router.post("/", async (req, res) => {
 
   user.password = undefined;
   const token = generateToken(user.id);
+  res.cookie("SESSIONID", token, {
+    httpOnly: true,
+    signed: true,
+    maxAge: EXPIRATION_TIME * 1000,
+  });
   res.send({ user, token });
 });
 
 
-router.get("/test", checkToken, (req, res) => {
+router.get("/test", checkTokenCookie, (req, res) => {
   res.send({ ok: true, user: req.userId });
 })
 

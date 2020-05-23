@@ -2,7 +2,7 @@ import express from "express";
 import path from 'path';
 
 import User, { createUser } from "../models/user.js";
-import { generateToken } from "../auth.js";
+import { generateToken, EXPIRATION_TIME } from "../auth.js";
 
 const router = express.Router();
 
@@ -11,7 +11,11 @@ router.post("/", async (req, res) => {  // Criar novo usuario
     await createUser(req.body)
       .then((user) => {
         const token = generateToken(user.id);
-        user.password = undefined;
+        res.cookie("SESSIONID", token, {
+          httpOnly: true,
+          signed: true,
+          maxAge: EXPIRATION_TIME * 1000,
+        });
         res.send({ user, token });
         // res.sendFile(path.join(req.context.front, "area-do-consumidor.html"));
       })

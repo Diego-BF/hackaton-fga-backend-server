@@ -1,31 +1,22 @@
 import jwt from "jsonwebtoken";
 
-const SECRET = "8208ab9da864cadbbd3be1455c81c295";
+const EXPIRATION_TIME = 86400;
 
 const generateToken = (userId) => {
-  const token = jwt.sign({ id: userId }, SECRET, {
-    expiresIn: 86400,
+  const token = jwt.sign({ id: userId }, process.env.AUTH_SECRET, {
+    expiresIn: EXPIRATION_TIME,
   });
   return token;
 };
 
 // middleware
-const checkToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+const checkTokenCookie = (req, res, next) => {
+  const token = req.signedCookies["SESSIONID"];
 
-  if (!authHeader)
+  if (!token)
     return res.status(401).send({ error: "No token provided" });
 
-  const parts = authHeader.split(" ");
-  if (!parts.length === 2)
-    return res.status(401).send({ error: "Token error" });
-
-  const [scheme, token] = parts;
-
-  if (!/^Bearer$/i.test(scheme))
-    return res.status(401).send({ error: "Token malformatted" });
-
-  jwt.verify(token, SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
     if (err)
       return res.status(401).send({ error: "Token invalid" });
 
@@ -34,4 +25,4 @@ const checkToken = (req, res, next) => {
   })
 }
 
-export { generateToken, checkToken };
+export { generateToken, checkTokenCookie, EXPIRATION_TIME };
