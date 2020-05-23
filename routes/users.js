@@ -1,15 +1,23 @@
 import express from "express";
+import path from 'path';
 
 import User, { createUser } from "../models/user.js";
-
+import { generateToken, EXPIRATION_TIME } from "../auth.js";
 
 const router = express.Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {  // Criar novo usuario
   if (req.body) {
     await createUser(req.body)
-      .then(() => {
-        res.send();
+      .then((user) => {
+        const token = generateToken(user.id);
+        res.cookie("SESSIONID", token, {
+          httpOnly: true,
+          signed: true,
+          maxAge: EXPIRATION_TIME * 1000,
+        });
+        res.send({ user, token });
+        // res.sendFile(path.join(req.context.front, "area-do-consumidor.html"));
       })
       .catch((err) => {
         if (err.name === "MongoError" && err.code === 11000) {
@@ -23,7 +31,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res) => {   // Resgatar um usuario a partir do userId
   if (!req.body.userId) {
     res.status(422).json({ error: "Inform the userId key" });
   }
@@ -32,18 +40,8 @@ router.get("/", (req, res) => {
     if (err) {
       res.status(422).json({ error: err.message });
     } else {
-      res.json(doc);
-    }
-  });
-});
 
-router.get("/all", (req, res) => {
-  User.find({})
-  .exec((err, _users) => {
-    if(err) {
-      res.status(500).json({ error: err });
-    } else {
-      res.json(_users);
+      res.json(doc);
     }
   });
 });
